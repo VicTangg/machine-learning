@@ -4,21 +4,14 @@ In this assessment you will need do perform a simple machine learning
 task using sklearn. Partial code are provided. Please fill in
 the missing code as per instructed
 """
-from sklearn.model_selection import GridSearchCV, cross_val_score
 import numpy as np
 from sklearn.svm import SVC
 import pandas as pd
 import csv
-from sklearn.cross_validation import train_test_split
-from sklearn.metrics import classification_report
-from sklearn import preprocessing
-from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
-from sklearn import svm
-from sklearn.feature_selection import GenericUnivariateSelect
-from sklearn.feature_selection import SelectKBest, f_classif, mutual_info_classif, chi2
+import sklearn
 import os
 import pprint
+
 pp = pprint.PrettyPrinter(indent = 1)
 """
 Please assign path of DefaultRecord_Person.csv to variable fileA
@@ -121,13 +114,13 @@ X_train, X_test, y_train, y_test = train_test_split(df_data[['MARRIAGE','SEX','E
 
 """
 
-X_train, X_test, y_train, y_test = train_test_split(features, response, test_size = 0.2, random_state = 42)
+X_train, X_test, y_train, y_test = sklearn.model_selection.train_test_split(features, response, test_size = 0.2, random_state = 42)
 #insert your code here
 """
 Feature selection Selecting K Best Features
 """
 
-selector = SelectKBest(f_classif, k=5)
+selector = sklearn.feature_selection.SelectKBest(sklearn.feature_selection.f_classif, k=5)
 X_selected = selector.fit_transform(X_train, y_train.values.ravel())
 """
 selector = SelectKBest(mutual_info_classif, k=5)
@@ -147,7 +140,7 @@ Please train your classifer using model of your choice.
 """
 
 #insert your code here
-model = LogisticRegression(penalty = 'l2', C = 1)
+model = sklearn.linear_model.LogisticRegression(penalty = 'l2', C = 1)
 model.fit(X_selected, y_train.values.ravel())
 #Cs = np.logspace(-6, -1, 10)
 #lf = GridSearchCV(estimator= SVC(kernel = 'linear', C = 1), param_grid=dict(C=Cs), n_jobs=-1)
@@ -156,7 +149,7 @@ model.fit(X_selected, y_train.values.ravel())
 #print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 
 
-clf = svm.SVC(kernel = 'linear', C = 1)
+clf = sklearn.svm.SVC(kernel = 'linear', C = 1)
 # scores = cross_val_score(clf, features[selected_columns], response.values.ravel(), cv=5,n_jobs = -1)
 #print("Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() * 2))
 clf.fit(X_selected,y_train.values.ravel())
@@ -168,6 +161,6 @@ by sklearn to evalulate your classifer.
 """
 
 #insert your code here
-print "Logistic accuracy is %2.2f" % accuracy_score(y_test, model.predict(X_test[selected_columns]))
-print "SVM accuracy is %2.2f" % accuracy_score(y_test, clf.predict(X_test[selected_columns]))
+print "Logistic accuracy is %2.2f" % sklearn.metrics.accuracy_score(y_test, model.predict(X_test[selected_columns]))
+print "SVM accuracy is %2.2f" % sklearn.metrics.accuracy_score(y_test, clf.predict(X_test[selected_columns]))
 print clf.get_params()
