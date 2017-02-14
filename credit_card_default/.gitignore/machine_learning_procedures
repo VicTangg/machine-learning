@@ -1,7 +1,0 @@
-1. Load the data into dataFrames
-2. Separate dataFrames into features and response
-3. Preprocess the data with feature selection techniques, the best method is wrapper method, which
-   is able to generate a set of features which provide the lowest error rates. Filter methods filters
-   features based on measures such as mutual information, point mutual information and correlation
-   and is able to give a ranking of all features
-4. Try different models such as svm, logistic regression and compare the performance.
